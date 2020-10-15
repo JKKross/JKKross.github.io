@@ -1,0 +1,830 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+	<title>Whiskey Driven Development</title>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="../wdd_style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <a href="../wdd_index.html"><img id="banner" align="center" src="../assets/wdd_banner.png" alt="Whiskey Driven Development"></a>
+
+<div align="center">
+    <a id="menu" href="../wdd_index.html">posts</a>
+    <a id="menu" href="../about.html">about</a>
+</div>
+
+<div id="section">
+
+    <h1>The state of software in 2020 & beyond</h1>
+    <h2>(tl;dr: it sucks & we need to do something about it)</h2>
+
+    <h3 style="color:red">WARNING!<br>This article contains some swear words & - you won't believe this - opinions!!! 😱😱😱<br>#NSFW I guess...</h3>
+
+<p>
+(I'm a bit sad that of all the things I thought of writing about,
+this is my very first blogpost, but here we go...)
+
+<br><br>
+
+Let me start with a personal anecdote.
+A few days ago, I woke up, made some coffee, had a cigarette
+(I'm still a smoker. I know it's bad. I'm working on it. #SorryNotSorry) & turned on my MacBook Pro.
+After getting angry at twitter for 30 minutes,
+I decided it's time to get some work done (currently from home, because COVID-19).
+Like every other day, I started launching programs I need to do my work:
+</p>
+
+<li>
+Alacritty - I basically live in the terminal when programming & use Vim as my text editor (I'll explain why later),
+</li>
+<li>
+Chrome - for work gsuite, etc.,
+</li>
+<li>
+Safari - for documentation, & finally,
+</li>
+<li>
+Xcode - not because I want to, but because I'm an iOS developer & I don't have any other choice.
+</li>
+
+<p>
+The first thing I do every day, after all of that finally loads
+(it usually takes a while - except for Alacritty, which is ready under 1 second),
+is running the app I'm currently working on,
+to remember where I left off the day before.
+So I hit command+r.
+And the waiting began...
+
+<br>
+<br>
+
+As my fellow iOS developers know, even though my machine could theoretically
+(if it wasn't MacOS) run many 3D games - which usually render millions of polygons,
+update the game world & process input while also playing spatial audio & talk to a server, all of that 60 times a second -
+Xcode+Swift means that my 5000 lines of native code will take 10 seconds to build (on a good day),
+the simulator will take a minute or two to boot,
+then I'll have to wait another 30-ish seconds for Xcode to copy the app to the simulator &
+at this point, (while my macbook's fans sound like a jet that's about to take off)
+the app finally runs.
+It will still stutter for a few seconds (because why not), but I can finally start working.
+
+<br><br>
+
+So already, I'm kinda bummed about the day & the fact that even if nothing crashes,
+I'm still gonna wait on the compiler & million other things
+every time I wanna see if I didn't forget to type
+<code>.translatesAutoresizingMaskIntoConstraints = false</code> for the millionth time (ugh).
+But that's just part of "thinking different"™️, I guess...
+
+<br><br>
+
+Anyway... I quickly realized where I left off, wrote some auto layout constraints (Ugh!),
+conformed to a few delegates (UGH!) & decided to run the app on my phone to see the changes.
+I plugged it in, unlocked it & hit command+r.
+Again: 10-20 seconds to build, few seconds to transfer the app to the phone & then,
+finally, I saw the launch screen. And it stayed there.
+An iMessage notification poped up. I read it & thought about what I'm gonna write back.
+The launch screen was still there. I did some more waiting. It was still there.
+Finally, after what felt like an eternity, the app started. But it was laggy as hell.
+"What?! I spent 2 days optimizing the launch of the
+app & the performance was not an issue until now!"
+
+<br><br>
+
+Then it hit me: I updated Xcode the day before... FUCK!
+I started googling for a possible solution.
+I tried a few of them, but none worked.
+While trying to figure it out, I wrote to one of my fellow iOS developers via Slack
+(which, ironically, runs faster in a browser than in it's "desktop app".
+Still slow as hell, but faster).
+After a few messages back & forth, he recommended turning of the "debug executable" in the scheme.
+My blood was boiling at this point & I went on a minor
+<a href="https://twitter.com/JK_Kross/status/1314149993880653824" target="_blank">twitter rampage</a>.
+I tried his recommendation & it was back to normal -
+which is still not as fast as it should be, but there was nothing more I could do.
+At this point, I was seriously pissed at apple & basically all the code in the world
+(for at least a third time this week).
+I mean, I'm DEVELOPING THE APP, I DON'T WANT TO JUST GIVE UP DEBUGGING!!!
+
+<br><br>
+
+That's when I decided to either record a youtube rant (which I'm still considering),
+or do what I was thinking about for the past year: start a blog. You're fucking welcome.
+</p>
+
+<h3>Don't @ me</h3>
+
+<p>
+First of all, I should preface all those very strong opinions
+(and to be completely honest, straight up hate & desperation)
+with some disclaimers:
+This is just an opinion. You don't have to agree.
+I hope you finish reading the whole thing before deciding I'm an idiot.
+But if you do & you still think I'm an idiot, that's fine.
+That doesn't mean either of us is a bad person.
+It just means we disagree.
+
+<br><br>
+
+Second: just so I'm completely honest here, I wouldn't call myself
+a n00b anymore, but I'm very much still a beginner programmer.
+As of writing this, I've been programming only for about ~3.5 years,
+and I just got my first programming job 2 months ago.
+That doesn't mean I have no clue what I'm talking about -
+programming is still (to my own surprise) my passion & I'm trying to learn how
+to get better at it every day.
+But still, you should probably take that into consideration when forming your opinion about this.
+
+</p>
+
+<p style="color:red">
+(With that I should probably note that everything written here is obviously just
+MY OWN OPINION & has nothing to do with my employer, friends, family or anyone else
+in the universe. These are just my thoughts.)
+</p>
+
+<p>
+
+Third: assuming anyone even reads this, I'm guaranteed to get twitter comments in the style of
+"Well you should really try Brave browser, it's so much better!" or
+"Just switch to Android & Windows/Linux, they're obviously superior!" or
+"Just use ReactNative instead of Swift!". No.
+You're <a href="https://www.reddit.com/r/woooosh/" target="_blank">missing the point</a> completely.
+Let me explain.
+</p>
+
+<h3>ALL SOFTWARE SUCKS!</h3>
+
+<p>
+
+Well... not all of it. But the vast majority of it!
+You just need to start noticing.
+Try taking a screenshot/photo (or just write it down)
+every time any software you encounter bugs out, crashes or otherwise obviously fails.
+Try it for a day. I dare you.
+It will be a lot - especially if you are a programmer.
+
+<br><br>
+
+Sure, most of it is not that much of a hindrance.
+I'm the first one to say "it's just a computer, there are more
+important things in life than a failing animation".
+But also: NO.
+We DEPEND ON SOFTWARE 24/7!
+
+<br><br>
+
+Power plants, water dams, stores & businesses, all logistics,
+the stock market & every other modern life utility we take for
+granted depends on software these days.
+Most (if not all) home appliences have a micro-controller in them.
+(Some are even connected to the internet these days, which is
+<a href="https://www.youtube.com/watch?v=304Lcn0nU3c" target="_blank">bananas</a>).
+Every vehicle made after the 90's has some chip in it.
+The breaks in your car are controlled via software for christ's sake!
+
+<br><br>
+
+And you know what? PEOPLE wrote that software.
+People like me.
+Good ol' chimps in shoes.
+
+<br><br>
+
+I hope that it was one of those rare species of chimps called "graybeards".
+You know, the grumpy one with a ponny-tail,
+wearing an old Metallica t-shirt, surviving on a balanced diet of pizza &
+6 cups of the blackest coffee you can find in this corner of the galaxy.
+The one who also happens to have 40 years of experience
+in real-time micro-controller systems & knows every little nook & cranny of the singular system
+he's been working on for decades.
+
+<br><br>
+
+But it's also possible that it was writen by some poor kid fresh out of college
+who was brainwashed into thinking that OOP & garbage collection are
+the best inventions of mankind!
+I really hope not.
+But then again, sometimes your boss tells you to
+<a href="https://techtrends.com/2019/04/19/a-software-bug-caused-boeings-new-plane-to-crash-twice/" target="_blank">UPDATE A FUCKING AIRPLANE</a>
+over the weekend and HUNDREDS OF PEOPLE DIE!
+Or maybe there's a "tried to convert 64-bit float to a 16-bit signed integer" exception thrown, which makes your
+<a href="https://hownot2code.com/2016/09/02/a-space-error-370-million-for-an-integer-overflow/" target="_blank">rocket & satellite</a>
+worth billions of dollars blow up!
+(There are a lot of other terrifying examples like that out there.
+But for both yours & mine sanity, I'm gonna stop for today.)
+
+<br><br>
+
+The hopeful part is that as horrifying & as crazy as these previous examples are,
+so far it seems that people working on those critical pieces of software are seriously
+trying to do what is called "software engineering" & statistically speaking,
+it seems they are doing an okay job.
+Which is good, because if they weren't trying seriously, we would all be dead by now...
+
+<br><br>
+
+(Quick little side note: people who write shitty JavaScript websites for a year &
+have the audacity to start calling themselves "software engineers" is one of my pet peeves.
+Like, get out of here, bro.
+Someone who picks up woodworking as a hobby & later starts their own carpentry bussines
+does not call themself a "civil engineer".
+Just like them, we're craftsmen at best.
+Unlike them, most of us don't take the same pride they do in our work.
+So please remove "software engineer" from your twitter bio if you don't work at NASA.)
+
+</p>
+
+<h3>The everyday struggle</h3>
+
+<p>
+There are beacons of hope here & there.
+Previously I wrote that I use Alacritty & Vim daily.
+I use <a href="https://github.com/alacritty/alacritty" target="_blank">Alacritty</a>
+because it's simple, fast & cross platform
+(that might come in handy in the future).
+Also because the built-in MacOS terminal got slow over the past few years &
+for some reason displays text wrong on an external monitor
+(while every other program renders fine).
+Alacritty encompases what Apple was about until Steve died: IT JUST WORKS!™️
+I can rely on it every single day. I've been using it for ~6 months &
+even though it's still in beta, it didn't crash on me ONCE!
+Good job, folks! Seriously. I notice. Other people do as well.
+
+<br><br>
+
+I use <a href="https://en.wikipedia.org/wiki/Vim_(text_editor)" target="_blank">Vim</a>
+for the very same reasons: it's fast, simple (I said don't @ me! It's simple in the sense
+that it runs in the terminal, doesn't rely on zillions of libraries
+& is basically the same as it was in 1991) & runs basically everywhere.
+And although Vim has some minor bugs (it's also a waaaay bigger program -
+over a million lines of code if I'm not mistaken, which is... scary),
+just like Alacritty, it never died on me.
+I can coun't on Vim.
+(At least when it comes to the
+<a href="https://github.com/JKKross/terminal_stuff/blob/master/vimrc" target="_blank">basically vanilla vimrc</a>
+I use. I'm sure things would get messy
+pretty quickly if I started using plugins.
+I don't have to, though.
+Turns out
+<a href="https://www.youtube.com/watch?v=XA2WjJbmmoM&t=3s" target="_blank">Vim has a LOT of stuff built-in</a>!)
+
+<br><br>
+
+What's really sad is that my list of everyday-use-apps-that-I-don't-hate basically ends here.
+Except for a couple of iOS apps (like <a href="https://twitter.com/marcoarment" target="_blank">Marco Arment's</a>
+<a href="https://overcast.fm" target="_blank">Overcast</a> &
+<a href="https://twitter.com/_chuckyc" target="_blank">Charlie Chapman's</a>
+<a href="https://darknoise.app" target="_blank">Dark Noise</a>) &
+command-line utilities, like <a href="https://github.com/BurntSushi/ripgrep" target="_blank">ripgrep</a>,
+<a href="https://github.com/XAMPPRocky/tokei" target="_blank">tokei</a> or
+<a href="https://en.wikipedia.org/wiki/Ctags" target="_blank">ctags</a>.
+
+<br><br>
+
+(Also note that 3 of those 7 programs are written in Rust & 2 in pure C -
+both procedural languages with manual memory management,
+mostly used by serious, experienced, performance oriented programmers.
+Overcast's <a href="https://marco.org/2020/01/31/voiceboost2" target="_blank">audio engine</a>
+is also pure C.
+Insert "Coincidence? I don't think so!" meme here.)
+
+<br><br>
+
+I can't say that I'm satisfied with any other program I use on a daily basis.
+Safari works fine - FOR A WEB BROWSER (don't even get me started on the garbage pile
+that is the internet).
+There are a few more honorable mentions like <a href="https://www.blender.org" target="_blank">Blender</a>,
+<a href="https://musescore.org" target="_blank">MuseScore</a> or
+<a href="https://www.videolan.org/vlc/" target="_blank">vlc</a> -
+these programs rarely cause me trouble as well, but I can't vouch for them since
+I use them only here & there.
+
+<br><br>
+
+Otherwise, computers are just things I get angry at, every single day.
+You know I could easily come up with dozens of examples other than Xcode or "the web".
+And what's the craziest part to me (as someone who is still "fresh" in the industry) is
+that ALMOST NOBODY SEEMS TO HAVE A PROBLEM WITH IT!
+Most people are like "yeaaah, it's software, what can you do...
+just turn it off & on again..."
+
+<br><br>
+
+Just to beat a dead horse for a little bit longer, imagine you're an artist -
+let's say an illustrator.
+If you're a professional, you might be using an iPad with an Apple Pencil or
+a Wacom tablet in conjunction with some drawing software.
+But I'm pretty sure that you got started with pen & paper, and most likely,
+you still use that tool - at least from time to time. Why?
+There are many reasons (like the "feel" of pen & paper for example),
+but one of the main reasons is: they almost never fail you.
+If your pencil was breaking several times every day, you'd
+buy another brand the next day &
+never buy another one from the brand that breaks easily.<br>
+That's what using most software tools is like today.
+They're like a pencil that breaks every couple of hours.
+In some rare cases, there's legitimate competition,
+that tries to be more reliable - so you can "buy a new pencil".
+But in some cases, there's only one brand of pencil.
+And I would argue that at least for some young aspiring illustrators,
+that would mean giving up on drawing & trying out something else.
+How do we get new bright minds excited about programming,
+if the tools they are using every day are straight up telling them to give up?
+
+<br><br>
+
+(Ironically enough, I started to distrust software so much in the past couple
+of years, that I use pen & paper to write down my important notes.
+I'm not good at handwriting.
+But I know that unless there's a fire or I leave my notebook somewhere,
+the notes will be there.
+With "infinite battery life" & 100% reliability.
+And that's good enough of a selling point for me.)
+
+<br><br>
+
+The reason I'm even writing this article is because I think it doesn't have to be this way.
+The programs I mentioned previously (and those that I forgot about) are proof that we can do better!
+But it ain't gonna be easy...
+
+</p>
+
+<h3>Programming is hard</h3>
+
+<p>
+
+You probably heard this a few times already.
+Depending on how long you've been coding you're most likely either in the abbys of
+"You're just a n00b! I wrote an operating system & a compiler in
+<a href="https://en.wikipedia.org/wiki/Brainfuck" target="_blank">Brainfuck</a>
+over the weekend!"
+(Sure, bruh. Hopefully you'll grow out of that soon),
+or you're in the "Yep. It's hard. For many reasons, actually" camp.
+
+<br><br>
+
+Since most people fall into the latter category,
+there have been a LOT of attempted "solutions" over the years.
+Some of the noteworthy ones:
+
+<br><br>
+
+OOP, Garbage Collection, High level (usually interpreted) programming languages,
+Design patterns, Best Practices, TDD, Functional Programming, AGILE,...
+
+<br><br>
+
+It's a lot to say the least.
+It might surprise you, but my goal is not the judgement of any of the previously mentioned things, though.
+(Even though I think that most of them provide very little actual usefulness.)
+One of the reasons I don't want to do that is because other people
+already talked about those topics way more eloquently than I could
+(follow the links at the very end of the article if you're interested).
+What I want to do instead is talk about what Jonathan Blow refers to as "80% solutions".
+I simply want to figure out what is "good enough for now".
+
+<br><br>
+
+Because there's this idea of a perfect world some people are trying to pitch.
+But that's just that - an idea.
+Or an ideal, rather.
+
+<br><br>
+
+Don't get me wrong: ideals are great.
+They're something to strive for.
+Something basically unreachable, that makes you wanna do better.
+You can't hold on to that ideal all the time, like a madman, though -
+you still need to get you job done tomorrow.
+
+<br><br>
+
+What I'm gonna try to do instead, is talk about things that have been proven
+to work "well enough" over the millenia of human progress.
+Things I don't hear that often in the programming world.
+Because as with anything else, it takes time to figure out the right solution,
+and there are no silver bullets.
+The only thing that we can be sure about is that we don't yet fully understand how to properly balance
+correctness with performance, maintainability and speed/ease of development.
+
+<br><br>
+
+Maybe one day, in the far out future, we'll figure out the optimal solution,
+the perfect programming language, the perfect architecture, operating system etc.
+But even though hacker news is full of people telling us to "REWRITE IT IN RUST" or
+how they "learned to stop worrying & love functional programming & TDD",
+claiming that all our problems will be solved in a week, if we just ACCEPT THE ONE TRUE GOD!... -
+I mean if we just start following THESE BEST PRACTICES! -
+deep in our hearts, we know that we will be long gone,
+and it will be our cyborg great-grandkids writing code in those blessed days...
+
+</p>
+
+<h3>But I'm just a lowly programmer - there's nothing I can do!</h3>
+
+<p>
+Yes, you totally can.
+Like any decent psychologist would tell you: start by changing yourself.
+
+<br><br>
+
+I firmly believe that one of the main reasons for the current state of software
+(and a lot of other things for that matter),
+is not that we just don't have the right programming language, computer,
+architecture, design pattern etc. to do our job well.
+I think the main problem is very much social & personal.
+
+<br><br>
+
+Although I very much enjoy the romantic idea of contributing to the field
+in such a spectacular way, that it would change the lives of everyone on the planet,
+the chances of that happening to me (or to you, my dear reader) are slim.
+It's important to dream big & try to change the world if you think you can,
+but it's even more important to be grounded in the harsh reality of life.
+
+<br><br>
+
+But even if we can't change the world with a sudden revolution,
+we can change it with the little things.
+And those "little things" are actually monumental tasks,
+because they require us to do them every single day,
+for the rest of our careers.
+And that's hard.
+Extremely hard.
+(Programming is hard, remember?)
+
+<br><br>
+
+So here are some things, in no particular order, I try to do myself, every day.
+(And sometimes I fail. That's life.
+I try to do better the next day, though.)
+
+<br><br>
+
+First of all, like in any other field
+(and the same goes for the whole "how should I live my life?" thingy):
+don't just consume ideas.
+Think about stuff for yourself.
+Think about big things.
+Think about little things.
+Think hard.
+Think often.<br>
+Don't just become a "cult member", every time you hear about a new idea that sounds
+like it's gonna save us & finally make our code perfect.
+Because you know it won't.
+Everything is a compromise in one way or the other.<br>
+And that applies to this very article: I MAY BE COMPLETELY WRONG ABOUT EVERYTHING.
+Or I may be completely right.
+Most likely though, I'm right about some things & wrong about others.
+Once again: I'm still trying to figure this out myself.
+
+<br><br>
+
+Appreciate your craft.
+Find pride in what you do.<br>
+In other words: be a professional.<br>
+Remember the carpenter example I gave earlier, when talking about "software engineers"?
+Try to be like that.
+Try to be the "carpenter" whose table you'd be happy to have at your home.
+Or in more concrete words, try to be the indie programmer you'd happily give 50$
+for their software, crafted with love & care.<br>
+That's harder to do in a corporation, though, right?
+But you & me both know that there are people working in factories that still do
+their best, even though they're just a "cog in a wheel".
+Sure, there's plenty of people who don't.
+But if I'd have to bet on which of them is happier in life,
+I'd bet on the hardworking one, that does their best no matter what.<br>
+Just like them, do your craft well & be content with it.
+When you fix a bug, no matter how small,
+be happy that you did your job -
+and that, hopefully, you did it well.<br>
+Because you (most likely) spend 8 hours a day at work - that's third of a day!
+That's 40 hours a week.
+160 hours a month.
+1900 hours a year, assuming 2 weeks of paid leave.
+If you work for 40 years, that's 76 000 hours of your life!<br>
+That's a lot.
+I think we all better make sure that if we don't enjoy it,
+that we at least don't completely hate it & that we can be proud
+of the work we've done after those 76 000 hours are over.
+That we can say "I made the world a better place."
+Even if just a little bit.
+Even if that means something as trivial as making something you're working on a bit faster,
+so all the people using the damn thing are a little less frustrated with it.
+And therefore, little less frustrated with their life.<br>
+Just think about it.<br>
+In spite of the risk of sounding like a salesperson: Think about the impact!
+You're a programmer - that means that what you work on is used with certainty
+by at least hundreds of people, every single day.
+It's very much possible that it's used by hundreds of thousands,
+or even millions, though!
+I don't know about you, but I can be proud that I made something
+a little bit better & impacted that many people with it.
+
+<br><br>
+
+Work hard.
+Be disciplined.<br>
+We don't hear this often enough these days.
+And it goes hand in hand with being proud of your craft.
+It's something we all intuitively feel is the right thing,
+even though we talk about work-life balance all the time.
+Don't get me wrong, work-life balance is important.
+But we are all different & we each have our own unique balance.
+For some people, even the 8 hours they spend at work feels like a lot.
+(In that case, I would think hard & long about if this is the right job for you.
+Maybe you'd be happier doing something else.
+There's nothing wrong about that.)<br>
+But there are people to whom working 12-hour days is perfectly balanced &
+it's actually what makes them happy.
+Ask John Carmack if he thinks his life is not balanced.
+I bet you he wouldn't be working so hard for so long if he didn't enjoy it.
+And I bet you he's proud of his work.<br>
+And also, it's not just about the time you put in.
+The effort is even more important.<br>
+I'm not gonna tell you that any of those extremes is right.
+But I know that no matter what you read or hear from other people,
+deep inside you know that working hard on something you enjoy -
+or hopefully even love - is one of the things that give your life meaning.<br>
+And once again, working hard as a programmer may not be that thing for you.
+Figure out what it is, then, and do that.
+You will feel better & with that, you will be able to make the world -
+both your's & everyone else's - a better place.
+And that's worth working hard.
+
+<br><br>
+
+Learn.<br>
+Learn as a programmer.
+Learn as a person.
+Learn about programming.
+But also learn about everything else that you find interesting.
+Learn all the time.
+Challenge yourself.
+Practice.
+We all need to learn more about ourselves, each other & the world we live in -
+I feel like that's a truism.
+(Still worth writing, though)<br>
+Find a few good mentors - whether in real life or on the internet.
+I would especially recommend "the old ones".
+(I feel like there's this weird stigma in our industry where people my age
+get "more airtime" than people who have been programming for decades.
+Guess what: while it's certainly not automatically true for everybody,
+people who spend a lot of time doing a thing probably know a bit more
+about that thing than someone who basically just started.)<br>
+Also, learn about history.
+In a sense, we are fortunate enough to be a very young field.
+I wouldn't say there's not much in the history of computing,
+but it's not as overwhelming as it is in some other fields.
+Remember: "Those who do not learn history are doomed to repeat it."
+
+<br><br>
+
+Strive for simplicity, beauty & elegance.<br>
+This one is really hard to put into words.
+But I'm pretty sure you know what I mean.
+You just know when something is simple, beautiful &
+elegant when you see it.<br>
+Maybe it's better to put it the other way:
+Avoid unnecessary complexity, ugliness & over-abstraction.<br>
+But beware: a lot of things seem like simple & elegant ideas at the start,
+only to turn into incomprehensible beasts.
+Honestly, I don't see any other way than just thinking
+about stuff you thought about hundred's of times already one more time.
+And conversely, although we've been told that writing a 1000 line long function
+is a bad idea, maybe it is the most simple, beautiful & elegant solution in the moment.
+I think that everyone just needs to develop an intuition for it, and "taste" as well, in some sense.<br>
+Remember Albert Einstein: "Everything should be as simple as possible - but no simpler."
+
+<br><br>
+
+Focus on deep knowledge.<br>
+The things that will most likely stay basically the same throughout your life.
+How does the hardware work.
+How to write efficient code.
+How does the operating system work.<br>
+Unfortunately, for the time being, we need to remember some trivia
+that's gonna be useless by the next update.
+We wouldn't be able to do our jobs otherwise.<br>
+But try your best to spend most of your learning time getting to know the "timeless concepts" -
+even if you don't think you can apply them to your current job.
+It will come in handy one day, one way or the other, probably when you least expect it.<br>
+Foundations are fundamental.
+
+<br><br>
+
+Another truism: you can't change the whole world in a week.
+(or "Rome wasn't built in a day", if you will)<br>
+So, if you agree with things written here, start small.
+Every little effort to make the world better counts.
+The key is just trying to do your best everyday.
+We all know that, even though we want to blame it on someone or
+something else - because it's exhausting to try your best every day.
+So start small.<br>
+Maybe try taking a look at some long forgotten
+<code>FIXME</code>s & <code>TODO</code>s tomorrow.
+Read through the code you just wrote once more before
+getting started on the next task.
+Check if the comments match the code, all that jazz.<br>
+Then, when you find enough strength to do so,
+think if you maybe should try to tear that legacy monster apart & make it better.
+Think hard if you really need another dependency.
+But start small.
+
+<br><br>
+
+I know you heard at least some of the things I wrote here quite a few times already.
+Quite frankly, some of them date back to the philosophers of ancient Greece, Rome & China, in a sense.
+And maybe, you're even kinda already sick of hearing about them.
+But I think we don't hear them often enough.
+And probably (just like me, for a long time), you heard them,
+thought they were a good idea, but still didn't live by them.
+So, let's just try next time.
+Please.<br>
+Let's try. Everyday. Together.
+Because the year is 2020, we're all stuck inside & software sucks™️.
+</p>
+
+<h3>Epilogue</h3>
+
+<p>
+I would lie if I said that what I wrote here is original, or something brand new.
+Most of the thoughts & ideas presented here are either directly inspired by or
+honestly just blatantly stolen from the following people
+(some already mentioned), whom I'd like to thank:
+
+<br><br>
+
+<a href="https://twitter.com/lexfridman" target="_blank">Lex Fridman</a>: previously a teacher at
+<a href="https://web.mit.edu" target="_blank">MIT</a> & an AI researcher, currently building his own startup.
+The host of the <a href="https://www.youtube.com/channel/UCSHZKyawb77ixDdsGog4iWA" target="_blank">Lex Fridman Podcast</a>;
+and someone who continually inspires me to be a better person in every dimension.
+
+<br><br>
+
+<a href="https://twitter.com/Jonathan_Blow" target="_blank">Jonathan Blow</a>: game designer & programmer; founder of Thekla inc.,
+creators of <a href="https://www.youtube.com/watch?v=IM-gTvdkfvc" target="_blank">Braid</a> &
+<a href="https://www.youtube.com/watch?v=SPMMKFX78x0&feature=emb_logo" target="_blank">The Witness</a>,
+and also the (hopefully soon to be public-beta-released)
+<a href="https://www.youtube.com/watch?v=uZgbKrDEzAs&t=9s" target="_blank">Jai programming language</a>.
+You can watch him get angry at computers in real-time at
+<a href="https://www.twitch.tv/naysayer88" target="_blank">Twitch</a>.
+
+<br><br>
+
+<a href="https://caseymuratori.com/about" target="_blank">Casey Muratori</a>: game engine programmer at
+<a href="https://mollyrocket.com/about" target="_blank">Molly Rocket</a>; creator of the
+<a href="https://handmadehero.org" target="_blank">Handmade Hero</a> series.
+
+<br><br>
+
+<a href="https://twitter.com/mike_acton" target="_blank">Mike Acton</a>: engine director at
+<a href="https://unity.com" target="_blank">Unity 3D</a>;
+previously engine director at
+<a href="https://insomniac.games" target="_blank">Insomniac Games</a>.
+
+<br><br>
+
+<a href="https://twitter.com/ID_AA_Carmack" target="_blank">John Carmack</a>:
+I mean... Does John really need an introduction?
+Wolfenstein 3D. Doom. Quake. Oculus VR. Armadillo Aerospace. You name it.
+He is currently focusing on independent AI research.
+
+<br><br>
+
+And finally, <a href="https://twitter.com/elonmusk" target="_blank">Elon Musk</a> - who definitely needs no introduction.
+Thank you for inspiring me & many others to dream big & to reach for the stars.
+
+<br><br>
+
+(Note: you may have noticed that 4 out of 6 people listed here are game developers.
+While that may strike you as a bit odd, coming from an iOS programmer,
+that doesn't really play games that much,
+it's because making videogames is still one of the most difficult programming task.
+People working on modern 3D game engines must by the definition of the job be
+"on the top of their game", so to speak.
+And I don't know about you, but I want to learn from the best.)
+</p>
+
+<h4>Recommended reading:</h4>
+
+<p>
+<a href="https://www.jordanbpeterson.com/12-rules-for-life/" target="_blank">12 Rules for Life</a> by Dr. Jordan B. Peterson:
+You might have notice that most of the advice I tried to provide in this article was
+in the deepest sense phylosophical & psychological.
+That's because we are human, and one of the best ways to be productive &
+do a good job is to be happy & stable as a person.
+I recommend reading (or listening to) 12 Rules for Life to everyone I know,
+as it helped me tremendously in both my personal & professional life,
+so I see no reason to not put it on this list as well.
+
+<br><br>
+
+<a href="https://suckless.org/philosophy/" target="_blank">The Suckless Manifesto</a>:
+although maybe a bit extreme, I find most of suckless' core values very appealing & inspiring.
+
+<br><br>
+
+<a href="https://www.stilldrinking.org/programming-sucks" target="_blank">Programming Sucks</a> by
+<a href="https://twitter.com/peterhuntwelch" target="_blank">Peter Welch</a>:
+sometimes, when the world is on fire, the best thing you can do is laugh about it.
+
+<br><br>
+
+<a href="https://tonsky.me/blog/disenchantment/" target="_blank">Software Disenchantment</a> by
+<a href="https://twitter.com/nikitonsky" target="_blank">Niki Tonsky</a>:
+this particular article is very similar in spirit to mine.
+I highly recommend reading all of Tonsky's posts.
+</p>
+
+<h4>Recommended watching:</h4>
+
+<p>
+<a href="https://www.youtube.com/watch?v=dS6rCaDSwW8" target="_blank">The most important talk on Programming</a> by Jonathan Blow.<br>
+(The title sounds a bit arrogant, but it's not Jon's title.
+It's just a clip from one of his streams that someone put on YouTube.)<br>
+If you were to ask me to recommend only one of the videos from this list, it would be this one.
+Please watch it & think about it.
+
+<br><br>
+
+<a href="https://www.youtube.com/watch?v=pW-SOdj4Kkk&t=3406s" target="_blank">Preventing the collapse of civilization</a> by Jonathan Blow.
+This talk was one of the most prominent inspirations for this article.
+The title is a bit clickbaity, but the content is not.
+
+<br><br>
+
+<a href="https://www.youtube.com/watch?v=4Ej_3NKA3pk&t=620s" target="_blank">Jonathan Blow on Deep Work: The Shape of a Problem Doesn't Start Anywhere</a>
+(interview)
+
+<br><br>
+
+<a href="https://www.youtube.com/playlist?list=PLjn3WmBeabPOUzxcCkzk4jYMGRZMZ6ylF" target="_blank">Programming Paradigms</a>:
+this is a whole playlist of a free course from Stanford.
+I'm not particularly fond of the computer science education in general,
+but this course is definitely the golden exception -
+It's one of those "deep knowledge" exceptions.
+I find the lecturer explains all of the ideas swiftly, yet clearly & understandably.
+
+<br><br>
+
+<a href="https://www.youtube.com/watch?v=rX0ItVEVjHc&t=4217s" target="_blank">Data-Oriented Design and C++</a> talk by Mike Acton.
+I'd recommend watching the whole thing even if you don't understand every little detail -
+the overarching themes are vital.
+
+<br><br>
+
+<a href="https://www.youtube.com/watch?v=kZRE7HIO3vk" target="_blank">The Thirty Million Line Problem</a> by Casey Muratori.
+This talk was also a big inspiration for this article.
+
+<br><br>
+
+<a href="https://www.youtube.com/watch?v=r-TLSBdHe1A" target="_blank">Performance Matters</a> by Emery Berger.
+I can almost guarantee you will be surprised.
+
+<br><br>
+
+<a href="https://www.youtube.com/watch?v=QM1iUe6IofM" target="_blank">Object-Oriented programming is bad</a> by Brian Will.
+
+<br><br>
+
+<a href="https://www.youtube.com/watch?v=rHIkrotSwcc" target="_blank">There are no zero-cost abstractions</a> by Chandler Carruth.
+
+<br><br>
+
+<a href="https://www.youtube.com/watch?v=EY6q5dv_B-o&t=1280s" target="_blank">Brian Kernighan interviews Ken Thompson</a>.
+A very important part of computer history.
+
+<br><br>
+
+Speaking of history, I highly recommend subscribing to
+<a href="https://www.youtube.com/channel/UC9-y-6csu5WGm29I7JiwpnA" target="_blank">Computerphile</a>.
+</p>
+
+<h4>Let's get angry at computers again but have some lolz while doing it:</h4>
+
+<p>
+<a href="https://www.youtube.com/watch?v=wCllU4YkxBk" target="_blank">Jonathan Blow plays Visual Studio</a><br>
+
+<a href="https://www.youtube.com/watch?v=W5s965qdmyU" target="_blank">Jonathan Blow on Windows Terminal</a><br>
+
+<a href="https://www.youtube.com/watch?v=GC-0tCy4P1U" target="_blank">Twitter and Visual Studio Rant</a><br>
+
+<a href="https://www.youtube.com/watch?v=1HAXgM3mjSo&t=1s" target="_blank">Deep thoughts on other languages Like Rust, Go, etc.</a><br>
+
+<a href="https://www.youtube.com/watch?v=_e6BKJPnb5o" target="_blank">programmers_are_evil()</a><br>
+</p>
+
+</div>
+
+<div align="center">
+    <p id="footer">Copyright © 2020 Jan Kříž.</p>
+</div>
+
+</body>
+</html>
